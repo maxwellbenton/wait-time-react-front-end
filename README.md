@@ -1,6 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app), and connects to Ruby on Rails backend.
 
-![Wait Time Logo](http://imgur.com/Mbd3liX "Wait Time")
+![Wait Time Logo](http://imgur.com/Mbd3liX)
+Format: !["Wait Time"](http://imgur.com/Mbd3liX)
+
 
 ## Table of Contents
 
@@ -22,6 +24,11 @@ For the front-end, the main timing and recording functionality is built entirely
 
 The back-end uses a PostgreSQL database rending JSON as output.  One extra gem was needed, Geocoder, in order to handle latitude and longitude recording for converting store addresses to latitude and longitude.
 
-![Landing Page](http://imgur.com/saNKr1n "Wait Time")
-![Map and User Pages](http://imgur.com/tZdJum5 "Wait Time")
-![Store Data Pge](http://imgur.com/6u4V90P "Wait Time")
+![Landing Page](http://imgur.com/saNKr1n)
+Format: !["Wait Time Landing Page"](http://imgur.com/saNKr1n)
+
+![Map and User Pages](http://imgur.com/tZdJum5)
+Format: !["Wait Time Map Page"](http://imgur.com/tZdJum5)
+
+![Store Data Pge](http://imgur.com/6u4V90P)
+Format: !["Wait Time Store Data"](http://imgur.com/6u4V90P)
