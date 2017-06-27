@@ -2,14 +2,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ![Wait Time Logo](http://i.imgur.com/Mbd3liX.png)
 
-
-
-## Table of Contents
-
--Summary/Basic Info
--Build Information
--Component Structure
-
 ## Summary/Basic Info
 
 Wait Time is a user-driven app designed to provide useful feedback to customers and retail companies about the length of checkout lines.  The app allows for customers to time how long it takes to be served and to also provide immediate one-line feedback about the experience.  A user can view estimated and average wait times for a store, and see how their wait time stacks up against the norm (and if another store is typically faster).
