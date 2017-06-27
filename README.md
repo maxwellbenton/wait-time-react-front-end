@@ -24,11 +24,11 @@ For the front-end, the main timing and recording functionality is built entirely
 
 The back-end uses a PostgreSQL database rending JSON as output.  One extra gem was needed, Geocoder, in order to handle latitude and longitude recording for converting store addresses to latitude and longitude.
 
-![Landing Page](http://imgur.com/saNKr1n)
-Format: !["Wait Time Landing Page"](http://imgur.com/saNKr1n)
+![Landing Page](http://imgur.com/saNKr1n "Optional")
+
 
 ![Map and User Pages](http://imgur.com/tZdJum5)
-Format: !["Wait Time Map Page"](http://imgur.com/tZdJum5)
+
 
 ![Store Data Pge](http://imgur.com/6u4V90P)
-Format: !["Wait Time Store Data"](http://imgur.com/6u4V90P)
+
