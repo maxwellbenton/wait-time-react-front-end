@@ -82,7 +82,7 @@ export default class StopWatch extends Component {
     }
     render() {
         return (
-            <div><h1>{newHour !== "00" ? "newhour" : null}<span className="timer">{this.state.minutes}</span>:<span className="timer">{this.state.seconds}</span>:<span className="timer">{this.state.tens}</span></h1></div>
+            <div><span className="hour">{this.state.hours}</span>:<span className="min">{this.state.minutes}</span>:<span className="sec">{this.state.seconds}</span></div>
         ) 
     }
 }

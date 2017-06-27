@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { Link } from 'react-router-dom'
 import {StoresAdapter} from '../src/adapters'
 import Store from './Store'
 
@@ -38,23 +37,15 @@ export default class StoresPage extends Component{
         })
     }
     renderStores() {
-        return this.state.stores.map(store => <div className="col-md-3"><Store store={store}/></div>)
+        return this.state.stores.map(store => <div key={store.id} className="col-md-3"><Store store={store}/></div>)
     }
 
-
+    //<Link to="/stores/new">Add Store</Link>
     render() {
         return (
-            <div className="col-4 four">
-            <div className="row">
-                <h3>Stores</h3>
-            </div>
-            <div className="row">
-                <Link to="/stores/new">Add Store</Link>
-            </div>
-            <div className="row">
+            <div className="storesPage text-center">
+                {<h5 className="title">Choose a Store to Start Timer</h5>}
                 {this.renderStores()}
-            </div>       
-            
             </div>
             
         )

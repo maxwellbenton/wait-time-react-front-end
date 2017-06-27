@@ -5,17 +5,18 @@ export default class Timer extends Component {
 
 render() {
     var stopWatch = () => {
-        if(!this.props.timeInfo.timerStarted) {
-            return null
+        if(!this.props.timerStarted) {
+            return <div className="logo">WAIT, TIME</div>
+            
         } else {
             return <StopWatch time={this.props.timeInfo.startTime} />
         } 
     }
-    
+    //<div onClick={this.handleClick}>{this.props.timeInfo.timerStarted ? "Click to Stop" : "Click to Start"}</div>
     return(
-        <div>
+        <div className="timer">
             {stopWatch()}
-            <div onClick={this.handleClick}>{this.props.timeInfo.timerStarted ? "Click to Stop" : "Click to Start"}</div>
+            
         </div>
     )
 }

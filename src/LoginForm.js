@@ -27,11 +27,11 @@ export default class LoginForm extends Component {
   render(){
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>Username</label>
-        <input type='text' value={this.state.username} name="username" onChange={this.handleChange}/>
-        <label>Password</label>
-        <input type='password' value={this.state.password} name="password" onChange={this.handleChange}/>
-        <input type="submit" />
+        <div><label>Username</label>
+        <input type='text' value={this.state.username} name="username" onChange={this.handleChange}/></div>
+        <div><label>Password</label>
+        <input type='password' value={this.state.password} name="password" onChange={this.handleChange}/></div>
+        <div><input type="submit" /></div>
       </form>
     )
   }
