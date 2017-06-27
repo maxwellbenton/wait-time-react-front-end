@@ -25,7 +25,7 @@ For the front-end, the main timing and recording functionality is built entirely
 The back-end uses a PostgreSQL database rending JSON as output.  One extra gem was needed, Geocoder, in order to handle latitude and longitude recording for converting store addresses to latitude and longitude.
 
 ![Landing Page](http://imgur.com/saNKr1n "Optional")
-
+![Alt text](http://imgur.com/saNKr1n "Optional title")
 
 ![Map and User Pages](http://imgur.com/tZdJum5)
 
