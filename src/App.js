@@ -31,7 +31,7 @@ class App extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.getNearbyStores(40.705253,-74.014070) //CHANGE TO position.coords.latitude & longitude,
+        this.getNearbyStores(position.coords.latitude,position.coords.longitude) //CHANGE TO position.coords.latitude & longitude,
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -39,7 +39,7 @@ class App extends Component {
   }
 
   getNearbyStores(lat, lng) {
-    fetch(`http://localhost:3000/api/v1//searchStores`, {
+    fetch(`https://wait-time-api.herokuapp.com/api/v1/searchStores`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -78,7 +78,7 @@ class App extends Component {
   }
 
   createWaitTime(waitTime) {
-    fetch('http://localhost:3000/api/v1/wait_times', {
+    fetch('https://wait-time-api.herokuapp.com/api/v1/wait_times', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
