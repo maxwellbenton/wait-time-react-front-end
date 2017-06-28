@@ -7,7 +7,7 @@ export default class Map extends React.Component {
   render() {
     return (
        <GoogleMapReact
-        bootstrapURLKeys={{key: , language: 'en'}}
+        bootstrapURLKeys={{key: 'AIzaSyB3QvmFmVmZSmVkMyGrIQDqM3VPLniqvRc', language: 'en'}}
         center={[this.props.curState.latitude, this.props.curState.longitude]}
         zoom={18}>
         
