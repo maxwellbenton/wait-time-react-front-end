@@ -4,19 +4,25 @@
   "private": true,
   "dependencies": {
     "babel": "^6.23.0",
+    "google-map-react": "^0.24.0",
+    "google-maps-react": "^1.0.19",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1"
   },
   "devDependencies": {
     "escape-string-regexp": "^1.0.5",
-    "object-assign": "^4.1.1",
-    "react-scripts": "1.0.7"
+    "gh-pages": "^1.0.0",
+    "object-asn--sasign": "^4.1.1",
+    "react-scripts": "^1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "homepage": "https://maxwellbenton.github.io/wait-time-react-front-end"
 }

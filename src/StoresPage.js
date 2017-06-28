@@ -1,11 +1,15 @@
 import React, {Component} from 'react'
-import {StoresAdapter} from '../src/adapters'
 import Store from './Store'
 
 export default class StoresPage extends Component{
 
+    
     renderStores() {
-        return this.props.nearbyStores.map(store => <div key={store.id} className="col-md-3"><Store store={store}/></div>)
+        if (this.props.timerStarted) {
+            return <button key={this.props.selectedStore.id} className="col-md-3" ><Store store={this.props.selectedStore} handleClick={this.props.handleClick}/></button>
+        } else {
+            return this.props.nearbyStores.map(store => <button key={store.id} className="col-md-3" ><Store store={store} handleClick={this.props.handleClick}/></button>)
+        }
     }
 
     //<Link to="/stores/new">Add Store</Link>

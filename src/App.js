@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
+// import { Route } from 'react-router-dom'
 
 import Nav from './Nav'
 import TimePage from './TimePage'
@@ -39,7 +39,7 @@ class App extends Component {
   }
 
   getNearbyStores(lat, lng) {
-    fetch(`https://wait-time-api.herokuapp.com/api/v1/searchStores`, {
+    fetch(`http://localhost:3000/api/v1/searchStores`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -65,6 +65,7 @@ class App extends Component {
   }
 
   toggleTimer(store) {
+    console.log(!this.state.timerStarted)
     if(!this.state.timerStarted) {
           this.setState({
             timerStarted: true,
@@ -78,7 +79,7 @@ class App extends Component {
   }
 
   createWaitTime(waitTime) {
-    fetch('https://wait-time-api.herokuapp.com/api/v1/wait_times', {
+    fetch('http://localhost:3000/api/v1/wait_times', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -99,14 +100,17 @@ class App extends Component {
             selectedStore: null
           })
       })
-      
+      this.getNearbyStores(this.state.latitude, this.state.longitude) 
   }
+  
+
 
   logIn() {
     console.log('log in attempted');
   }
 
   render() {
+    console.log(this.state.nearbyStores)
     return (
       <div className="App container">
         <div>
@@ -114,11 +118,11 @@ class App extends Component {
         </div>
         <div className="main-view">
           <div className="landing-page">
-              <TimePage timerStarted={this.state.timerStarted}/>
-              <StoresPage nearbyStores={this.state.nearbyStores} timerStarted={this.state.timerStarted}/>
+              <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
+              <StoresPage nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer}/>
           </div>
           <div className="storemap-page">
-              <StoreMap nearbyStores={this.state.nearbyStores}/>
+              <StoreMap curState={this.state} nearbyStores={this.state.nearbyStores} handleClick={this.toggleTimer}/>
           </div>
           <div className="footer">
               <Footer />

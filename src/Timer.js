@@ -9,7 +9,7 @@ render() {
             return <div className="logo">WAIT, TIME</div>
             
         } else {
-            return <StopWatch time={this.props.timeInfo.startTime} />
+            return <StopWatch />
         } 
     }
     //<div onClick={this.handleClick}>{this.props.timeInfo.timerStarted ? "Click to Stop" : "Click to Start"}</div>

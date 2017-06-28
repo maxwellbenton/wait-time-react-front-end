@@ -20,10 +20,13 @@ export default class StopWatch extends Component {
             hours: 0
         }
         this.incrementTimer = this.incrementTimer.bind(this)
-        this.handleClick = this.handleClick.bind(this)
+        
         interval = setInterval(this.incrementTimer,10)
     }
 
+    componentWillUnmount() {
+        clearInterval(interval)
+    }
     incrementTimer() {
         tens++
 
