@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 import Nav from './Nav'
 import TimePage from './TimePage'
 import StoresPage from './StoresPage'
-import StoreMap from './StoreMap'
 import Footer from './Footer'
+import Container from './Container'
 import './App.css';
+
 
 class App extends Component {
   constructor() {
@@ -30,10 +31,34 @@ class App extends Component {
     this.logIn = this.logIn.bind(this)
   }
 
+  render() {
+    console.log(this.state.nearbyStores)
+    
+    return (
+      <div className="App container">
+        <div>
+          <Nav />
+        </div>
+        <div className="main-view">
+          <div className="landing-page">
+              <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
+              <StoresPage initialPosition={{lat:this.state.latitude,long:this.state.longitude,}} nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer}/>
+          </div>
+          <div className="storemap-page">
+            <Container curState={this.state}/>
+          </div>
+          <div className="footer">
+            <Footer />
+          </div>
+        </div>
+          
+      </div>
+    );
+    
+  }
+
   componentDidMount() {
-    if (this.myInput.offsetWidth !== this.state.mapWidth) {
-      this.setState({mapWidth: this.myInput.offsetWidth})
-    }
+    
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.getNearbyStores(position.coords.latitude,position.coords.longitude) //CHANGE TO position.coords.latitude & longitude,
@@ -44,7 +69,7 @@ class App extends Component {
   }
 
   getNearbyStores(lat, lng) {
-    fetch(`http://localhost:3000/api/v1/wideSearchStores`, {
+    fetch(`http://localhost:3000/api/v1/searchStores`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -114,46 +139,7 @@ class App extends Component {
     console.log('log in attempted');
   }
 
-  render() {
-    console.log(this.state.nearbyStores)
-    console.log(this.state.mapWidth)
-    return (
-      <div className="App container">
-        <div>
-          <Nav />
-        </div>
-        <div className="main-view">
-          <div className="landing-page">
-              <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
-              <StoresPage nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer}/>
-          </div>
-          <div ref={input => {this.myInput = input}} className="storemap-page">
-              <StoreMap curState={this.state} nearbyStores={this.state.nearbyStores}/>
-          </div>
-          <div className="footer">
-              <Footer />
-          </div>
-        </div>
-          
-      </div>
-    );
-    // var storeTest = this.state.stores[0] === 'undefined' ? this.state.stores[0].name : null
-    // <Route exact path='/' render={() => { <App /> } } />
-    // <Route path='/storemap' render={() => <StoreMap />} />
-    // <Route path='/storedata' render={() => <StoresPage location={this.state.location}/>} />
-    // <Route path='/about' render={() => <About />} />
-    // <Route path='/contact' render={() => <Contact />} />
-    // <Route path='/login' render={() => <LoginForm onSubmit={this.logIn}/>} />
-    // <Route path='/stores/new' render={() => <NewStoreForm />} />
-    // <Route path='/stores/:id/edit' render={() => <NewStoreForm />} />
-    // <Route path='/userss/:id' render={() => <UserPage />} />
-    // import LoginForm from './LoginForm'
-    // import About from './About'
-    // import Contact from './Contact'
-    // import UserPage from './UserPage'
-    // import NewStoreForm from './NewStoreForm'
-    // import {WaitTimesAdapter} from '../src/adapters'
-  }
+  
 
 }
 

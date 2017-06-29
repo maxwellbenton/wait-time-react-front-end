@@ -26,6 +26,19 @@ export default class StopWatch extends Component {
 
     componentWillUnmount() {
         clearInterval(interval)
+        minutes = 0;
+        seconds = 0; 
+        tens = 0; 
+        newTens = "00"
+        newSeconds = "00"
+        newMinutes = "00"
+        newHour = "00"
+        this.setState = {
+            tens: 0,
+            seconds: 0,
+            minutes: 0,
+            hours: 0
+        }
     }
     incrementTimer() {
         tens++
