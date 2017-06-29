@@ -51,12 +51,17 @@
         
       }
       .storemap-page {
+        margin: 0;
+        padding: 0;
         background-color: #AAF;
         height: 650px;
+
       }
       .footer {
         background-color: #333;
         height: 80px;
+        position: relative;
+        top: -12px;
       }
       
       .timePage {
@@ -64,6 +69,8 @@
         height: 280px;
       }
       .storesPage {
+        margin: 0;
+        padding: 0;
         height: 370px;
         background-color: #777;
         overflow: scroll;
@@ -97,3 +104,4 @@
         width: 50px;
 
       }
+      

@@ -20,7 +20,9 @@ class App extends Component {
       selectedStore: null,
       error: null,
       nearbyStores: [],
-      waitTime: null
+      waitTime: null,
+      mapHeight: 670,
+      mapWidth: 375
     };
     this.toggleTimer = this.toggleTimer.bind(this)
     this.getNearbyStores = this.getNearbyStores.bind(this)
@@ -29,6 +31,9 @@ class App extends Component {
   }
 
   componentDidMount() {
+    if (this.myInput.offsetWidth !== this.state.mapWidth) {
+      this.setState({mapWidth: this.myInput.offsetWidth})
+    }
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.getNearbyStores(position.coords.latitude,position.coords.longitude) //CHANGE TO position.coords.latitude & longitude,
@@ -39,7 +44,7 @@ class App extends Component {
   }
 
   getNearbyStores(lat, lng) {
-    fetch(`http://localhost:3000/api/v1/searchStores`, {
+    fetch(`http://localhost:3000/api/v1/wideSearchStores`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -111,6 +116,7 @@ class App extends Component {
 
   render() {
     console.log(this.state.nearbyStores)
+    console.log(this.state.mapWidth)
     return (
       <div className="App container">
         <div>
@@ -121,8 +127,8 @@ class App extends Component {
               <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
               <StoresPage nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer}/>
           </div>
-          <div className="storemap-page">
-              <StoreMap curState={this.state} nearbyStores={this.state.nearbyStores} handleClick={this.toggleTimer}/>
+          <div ref={input => {this.myInput = input}} className="storemap-page">
+              <StoreMap curState={this.state} nearbyStores={this.state.nearbyStores}/>
           </div>
           <div className="footer">
               <Footer />
