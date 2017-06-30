@@ -20,9 +20,10 @@ render() {
     <nav className='topnav' ref={"navBtn"}>
       <div className='container-fluid text-center'>
         <div className="nav">
-          <Link to="/">Home</Link>          
-          <Link to="/storemap">Store Map</Link>
-          <Link to="/storedata">Store Data</Link>
+          
+          <Link to="/" onClick={this.props.handleClick}><img height="30" className="img-fluid" src="../pocket_watch_sm.png" alt="mini watch"/></Link>          
+          <Link to="/map">Store Map</Link>
+          <Link to="/stores">Store Data</Link>
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/user/:id">User</Link>
