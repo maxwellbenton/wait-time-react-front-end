@@ -22,6 +22,7 @@ render() {
         <div className="nav">
           
           <Link to="/" onClick={this.props.handleClick}><img height="30" className="img-fluid" src="../pocket_watch_sm.png" alt="mini watch"/></Link>          
+          
           <Link to="/map">Store Map</Link>
           <Link to="/stores">Store Search</Link>
           <Link to="/about">About</Link>

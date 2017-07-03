@@ -24,7 +24,7 @@ export class WaitTimesAdapter  {
       .then( res => res.json() )
   }
 
-  static create(waitTime){
+  static create(waitTime, selectedStore, user_id){
     return fetch('http://localhost:3000/api/v1/wait_times', {
       method: 'POST',
       headers: {
@@ -34,8 +34,8 @@ export class WaitTimesAdapter  {
       body: JSON.stringify({
         wait_time: {
             wait_time: waitTime,
-            store_id: this.state.selectedStore.id,
-            user_id: this.state.user.id
+            store_id: selectedStore,
+            user_id: user_id
         }
       })
     }).then(response => response.json() )

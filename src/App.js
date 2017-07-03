@@ -57,10 +57,12 @@ class App extends Component {
         <Route exact path="/" render={() => {
           if(this.state.curLat === null) {this.getUserLocation()}
           if(this.state.timerStarted === 2) {
+            console.log(this.state.selectedStore)
             return <div className="ending-page">
-                    <EndTime handleClick={this.resetTimeStatus}/>
+                    <EndTime store={this.state.selectedStore} handleClick={this.resetTimeStatus}/>
                   </div>
           } else {
+            console.log(this.state.selectedStore)
             return <div className="landing-page">
                     <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
                     <StoresPage initialPosition={{lat:this.state.curLat,long:this.state.curLong}} nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer} />
@@ -69,7 +71,7 @@ class App extends Component {
         }} />
         <Route exact path="/map" render={() => {
           return  <div className="storemap-page">
-                    <Map curState={this.state} mapChange={this.changeMap} nearbyStores={this.state.nearbyStores}/>
+                    <Map curState={this.state} mapChange={this.changeMap} nearbyStores={this.state.nearbyStores} getUserLocation={this.getUserLocation}/>
                   </div>
         }} />
         <Route path="/stores" render={() => {
@@ -147,12 +149,12 @@ class App extends Component {
   }
 
   createWaitTime(waitTime) {
-    WaitTimesAdapter.create(waitTime)
+    WaitTimesAdapter.create(waitTime, this.state.selectedStore, this.state.user.id)
       .then(() => {
         this.setState({
             timerStarted: 2,
-            startTime: null,
-            selectedStore: null
+            startTime: null
+            
           })
       })
       this.getNearbyStores(this.state.latitude, this.state.longitude) 
@@ -164,7 +166,8 @@ class App extends Component {
 
   resetTimeStatus() {
     this.setState({
-      timerStarted: 0
+      timerStarted: 0,
+      selectedStore: null
     })
   }
   
