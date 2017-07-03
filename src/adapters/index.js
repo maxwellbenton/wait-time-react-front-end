@@ -24,16 +24,19 @@ export class WaitTimesAdapter  {
       .then( res => res.json() )
   }
 
-  static create(wait_time){
-    return fetch(`${baseUrl}/wait_times`, {
+  static create(waitTime){
+    return fetch('http://localhost:3000/api/v1/wait_times', {
       method: 'POST',
-      headers: headers(),
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+      },
       body: JSON.stringify({
         wait_time: {
-            wait_time: wait_time.time,
-            store_id: wait_time.store_id,
-            user_id: wait_time.user_id
-    }
+            wait_time: waitTime,
+            store_id: this.state.selectedStore.id,
+            user_id: this.state.user.id
+        }
       })
     }).then(response => response.json() )
   }
@@ -42,16 +45,39 @@ export class WaitTimesAdapter  {
 }
 
 export class StoresAdapter  {
-  static create(lat, lng){
-    return fetch(`${baseUrl}/searchStores`, {
-      method: 'POST',
-      headers: headers(),
-      body: JSON.stringify({
-        location: {
-            latitude: lat,
-            longitude: lng
-        }
-      })
+  static all(){
+    return fetch(`http://localhost:3000/api/v1/all`)
+      .then(response => response.json() )
+  }
+
+  static show(id){
+    return fetch(`http://localhost:3000/api/v1/show`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+        body: JSON.stringify({
+            store_id: {
+              id: id
+            }
+        })
+    })
+      .then(response => response.json() )
+  }
+  static getLocalStores(lat, lng){
+    return fetch(`http://localhost:3000/api/v1/searchStores`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+        body: JSON.stringify({
+            location: {
+                latitude: lat,
+                longitude: lng
+            }
+        })
     })
       .then(response => response.json() )
   }

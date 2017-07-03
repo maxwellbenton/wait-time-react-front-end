@@ -5,12 +5,13 @@ import Nav from './Nav'
 import TimePage from './TimePage'
 import EndTime from './EndTime'
 import StoresPage from './StoresPage'
-import StoreData from './StoreData'
+import StoreSearchContainer from './StoreSearchContainer'
 import Footer from './Footer'
 import Map from './Map'
 import About from './About'
 import Contact from './Contact'
 
+import {StoresAdapter, WaitTimesAdapter} from './adapters/'
 
 
 class App extends Component {
@@ -29,22 +30,32 @@ class App extends Component {
       nearbyStores: [],
       waitTime: null,
       mapHeight: 670,
-      mapWidth: 375
+      mapWidth: 375,
+      searchTerm: "",
+      storeDetail: null
+      
     };
     this.toggleTimer = this.toggleTimer.bind(this)
     this.getNearbyStores = this.getNearbyStores.bind(this)
+    this.getUserLocation = this.getUserLocation.bind(this)
     this.createWaitTime = this.createWaitTime.bind(this)
     this.changeMap = this.changeMap.bind(this)
     this.resetTimeStatus = this.resetTimeStatus.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
     this.logIn = this.logIn.bind(this)
   }
 
+  onComponentDidMount() {
+    this.getNearbyStores()
+  }
   render() {
-    
+    console.log(this.state.curLat)
+    console.log(this.state.curLong)
     return (
       <div className="App container">
         <Nav handleClick={this.resetTimeStatus}/>
         <Route exact path="/" render={() => {
+          if(this.state.curLat === null) {this.getUserLocation()}
           if(this.state.timerStarted === 2) {
             return <div className="ending-page">
                     <EndTime handleClick={this.resetTimeStatus}/>
@@ -52,7 +63,7 @@ class App extends Component {
           } else {
             return <div className="landing-page">
                     <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
-                    <StoresPage initialPosition={{lat:this.state.curLat,long:this.state.curLong}} nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer}/>
+                    <StoresPage initialPosition={{lat:this.state.curLat,long:this.state.curLong}} nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer} />
                 </div>
           }
         }} />
@@ -61,11 +72,12 @@ class App extends Component {
                     <Map curState={this.state} mapChange={this.changeMap} nearbyStores={this.state.nearbyStores}/>
                   </div>
         }} />
-        <Route exact path="/stores" render={() => {
+        <Route path="/stores" render={() => {
           return  <div className="storedata-page">
-                    <StoreData curState={this.state}/>
+                    <StoreSearchContainer getLoc={this.getUserLocation} curState={this.state} onChange={this.handleSearch}/>
                   </div>
         }} />
+        
         <Route exact path="/about" render={() => {
           return  <div className="about-page">
                     <About />
@@ -86,8 +98,7 @@ class App extends Component {
     
   }
 
-  componentDidMount() {
-    
+  getUserLocation() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.getNearbyStores(position.coords.latitude,position.coords.longitude) 
@@ -95,23 +106,10 @@ class App extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-  }
+  }  
 
   getNearbyStores(lat, lng) {
-    fetch(`http://localhost:3000/api/v1/searchStores`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
-        body: JSON.stringify({
-            location: {
-                latitude: lat,
-                longitude: lng
-            }
-        })
-    })
-        .then(res => res.json() )
+    StoresAdapter.getLocalStores(lat, lng)
         .then(data => {
           if (this.state.curLat === null) {
             this.setState({
@@ -149,20 +147,7 @@ class App extends Component {
   }
 
   createWaitTime(waitTime) {
-    fetch('http://localhost:3000/api/v1/wait_times', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'accept': 'application/json',
-      },
-      body: JSON.stringify({
-        wait_time: {
-            wait_time: waitTime,
-            store_id: this.state.selectedStore.id,
-            user_id: this.state.user.id
-        }
-      })
-    }).then(response => response.json() )
+    WaitTimesAdapter.create(waitTime)
       .then(() => {
         this.setState({
             timerStarted: 2,
@@ -183,6 +168,11 @@ class App extends Component {
     })
   }
   
+  handleSearch(e) {
+    this.setState({
+      searchTerm: e.target.value
+    })
+  }
 
   logIn() {
     console.log('log in attempted');

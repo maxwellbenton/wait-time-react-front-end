@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Store from './Store'
+// import Store from './Store'
 
 export default class StoresPage extends Component{
     getFeedbackList() {

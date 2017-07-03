@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {StoresAdapter} from '../src/adapters'
-export default class LoginForm extends Component {
+
+export default class StoreForm extends Component {
 
   constructor(){
     super()

@@ -27,7 +27,7 @@
           
           
           .topnav a:not(:first-child) {display: none;}
-          .topnav a.icon {
+          .topnav .icon:hover {
             float: right;
             display: block;
           }
@@ -80,6 +80,9 @@
         background-color: #777;
         overflow: scroll;
       }
+      .dataPage {
+         background-color: #777;
+      }
       .timer {
         background-color: #FFF;
         opacity: .8;
@@ -113,21 +116,14 @@
         align-content: 'center';
         align-items: 'center';
       }
-      .overlay {
-        background:transparent; 
-        position:relative; 
-        width:3700px;
-        height:670px; /* your iframe height */
-        top:480px;  /* your iframe height */
-        margin-top:-480px;  /* your iframe height */
-      }
+      
       .mapDiv {
         background:#FFF;
         opacity: .9;
         font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
         font-size: 1.5em;
         color: #222;
-        width: 250px;
+        width: 300px;
         height: 30px;
         line-height: 30px;
         border-radius: 10px;
@@ -146,5 +142,17 @@
       }
       .storeButton {
         width: 100%;
+      }
+      .searchBar {
+        margin-top: 1em;
+        width: 100%;
+        background-color: '#333';
+        display: inline-block;
+        text-align: center;
+        
+      }
+      .sBar {
+        width: 80%;
+
       }
 }

@@ -9,6 +9,7 @@
     "google-maps-react": "^1.0.19",
     "mapbox-gl": "^0.38.0",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
     "react-google-maps": "^6.3.0",
     "react-google-static-map": "^0.1.0",
