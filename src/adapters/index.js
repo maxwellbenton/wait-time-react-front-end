@@ -1,6 +1,6 @@
 const baseUrl = 'http://localhost:3000/api/v1'
 
-export default class AuthAdapter {
+export class AuthAdapter {
   static login(loginParams){
     return fetch(`${baseUrl}/auth`, {
       method: 'POST',
@@ -14,7 +14,34 @@ export default class AuthAdapter {
       headers: headers()
     }).then(res => res.json() )
   }
+
+  
 }
+
+export class UserAdapter {
+  static userData(userParams){
+    return fetch(`${baseUrl}/user_data`, {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify(userParams)
+    }).then(res => res.json() )
+  }
+
+  static createUser(username, password){
+    return fetch(`${baseUrl}/createUser`, {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify({
+        user: {
+            username: username,
+            password: password
+        }
+      })
+    })
+      .then(response => response.json() )
+  }
+}
+
 
 export class WaitTimesAdapter  {
   static all(){
@@ -25,16 +52,13 @@ export class WaitTimesAdapter  {
   }
 
   static create(waitTime, selectedStore, user_id){
-    return fetch('http://localhost:3000/api/v1/wait_times', {
+    return fetch(`${baseUrl}/wait_times`, {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'accept': 'application/json',
-      },
+      headers: headers(),
       body: JSON.stringify({
         wait_time: {
             wait_time: waitTime,
-            store_id: selectedStore,
+            store_id: selectedStore.id,
             user_id: user_id
         }
       })
@@ -46,17 +70,14 @@ export class WaitTimesAdapter  {
 
 export class StoresAdapter  {
   static all(){
-    return fetch(`http://localhost:3000/api/v1/all`)
+    return fetch(`${baseUrl}/all`)
       .then(response => response.json() )
   }
 
   static show(id){
-    return fetch(`http://localhost:3000/api/v1/show`, {
+    return fetch(`${baseUrl}/show`, {
         method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
+        headers: headers(),
         body: JSON.stringify({
             store_id: {
               id: id
@@ -66,12 +87,9 @@ export class StoresAdapter  {
       .then(response => response.json() )
   }
   static getLocalStores(lat, lng){
-    return fetch(`http://localhost:3000/api/v1/searchStores`, {
+    return fetch(`${baseUrl}/searchStores`, {
         method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
+        headers: headers(),
         body: JSON.stringify({
             location: {
                 latitude: lat,
@@ -112,9 +130,10 @@ export class StoresAdapter  {
   }
 }
 
-function headers(){
-  return {
-    'content-type': 'application/json',
-    'accept': 'application/json',
-  }
+function headers() {
+    return {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'Authorization': localStorage.getItem('user_id')
+    }
 }

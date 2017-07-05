@@ -15,19 +15,19 @@ export default class StoreDetail extends Component {
         displayChart() {
             if(this.state.store.wait_times.length > 0) {
                 return(
-                    <Chart store={this.state.store}/>
+                    <Chart data={this.state.store}/>
                 )
             } else {
                 return "No data available"
             }
         }
         getStoreInfo() {
-            StoresAdapter.show(this.props.store.id)
+            StoresAdapter.show(this._reactInternalInstance._context.router.route.match.params.id)
                 .then(store => this.setState({store}))
         }
 
         render () {
-            if(this.state.store === null || this.state.store.id !== this.props.store.id) {
+            if(this.state.store === null) {
                 {this.getStoreInfo()}
                 return <div>Loading store data...</div>
             } else {

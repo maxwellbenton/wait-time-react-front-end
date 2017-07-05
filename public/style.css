@@ -1,11 +1,13 @@
 .topnav {
   overflow: hidden;
   background-color: #333;
+  height: 100%;
 }
 
 .topnav a {
   float: left;
   display: block;
+  height: 100%;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -24,7 +26,6 @@
 
 @media only screen and (max-width: 400px) {
     /* For mobile phones: */
-  .topnav a:not(:first-child) {display: none;}
   .topnav .icon:hover {
     float: right;
     display: block;
@@ -46,10 +47,13 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  
+}
+.container {
+  background-color: #5DF;
 }
 
 .landing-page {
-  height: 650px;
   background-color: #5DF;
   
   
@@ -57,12 +61,13 @@ body, html {
 .storemap-page {
   margin: 0;
   padding: 0;
-  background-color: #AAF;
+  background-color: #5DF;
   height: 660px;
 
 }
 .footer {
   background-color: #333;
+  color: #AAA;
   height: 80px;
   position: relative;
 }
@@ -92,6 +97,7 @@ body, html {
   font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif
 }
 .title {
+  font-size: 70vw;
   font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
   
 }
@@ -148,4 +154,13 @@ body, html {
 .sBar {
   width: 80%;
 
+}
+.user-page {
+  background-color: #5DF; 
+}
+.user-image {
+  border-radius: 50%;
+}
+.form {
+  margin-top: 1em;
 }

@@ -28,7 +28,7 @@ export default class StoresPage extends Component{
     render() {
         return (
             <div className="storesPage text-center">
-                {<h5 className="title">Choose a Store to Start Timer</h5>}
+                
                 {this.renderStores()}
             </div>
         )

@@ -19,16 +19,13 @@ render() {
   return (
     <nav className='topnav' ref={"navBtn"}>
       <div className='container-fluid text-center'>
-        <div className="nav">
+        <div className="nav" style={{height: '100%'}}>
           
           <Link to="/" onClick={this.props.handleClick}><img height="30" className="img-fluid" src="../pocket_watch_sm.png" alt="mini watch"/></Link>          
           
-          <Link to="/map">Store Map</Link>
-          <Link to="/stores">Store Search</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/user/:id">User</Link>
-          <Link to="/login">Log In</Link>
+          <Link to="/map">Map</Link>
+          <Link to="/stores">Search</Link>
+          {this.props.logInInfo.loggedIn ? <Link to={`/user/${this.props.logInInfo.user.id}`}>{this.props.logInInfo.user.username}</Link> : <Link to="/login">Log In</Link>}
           <a className="icon" onClick={this.navFunction}>&#9776;</a>
         </div>
         

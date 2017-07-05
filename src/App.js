@@ -10,15 +10,16 @@ import Footer from './Footer'
 import Map from './Map'
 import About from './About'
 import Contact from './Contact'
+import Login from './Login'
+import UserPage from './UserPage'
 
-import {StoresAdapter, WaitTimesAdapter} from './adapters/'
+import {StoresAdapter, WaitTimesAdapter, AuthAdapter} from './adapters/'
 
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      user: {id: 1},
       timerStarted: 0,
       startTime: null,
       latitude: null,
@@ -32,7 +33,11 @@ class App extends Component {
       mapHeight: 670,
       mapWidth: 375,
       searchTerm: "",
-      storeDetail: null
+      storeDetail: null,
+      auth: {
+        loggedIn: false,
+        user: null
+      }
       
     };
     this.toggleTimer = this.toggleTimer.bind(this)
@@ -43,9 +48,22 @@ class App extends Component {
     this.resetTimeStatus = this.resetTimeStatus.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
     this.logIn = this.logIn.bind(this)
+    this.logOut = this.logOut.bind(this)
+    this.checkForLogIn = this.checkForLogIn.bind(this)
   }
 
   onComponentDidMount() {
+    if(localStorage.getItem("user_id")) {
+      AuthAdapter.currentUser()
+      .then(user => {
+        this.setState({
+          auth: {
+            loggedIn: true,
+            user: user
+          }
+        })
+      })
+    }
     this.getNearbyStores()
   }
   render() {
@@ -53,7 +71,7 @@ class App extends Component {
     console.log(this.state.curLong)
     return (
       <div className="App container">
-        <Nav handleClick={this.resetTimeStatus}/>
+        <Nav handleClick={this.resetTimeStatus} logInInfo={this.state.auth}/>
         <Route exact path="/" render={() => {
           if(this.state.curLat === null) {this.getUserLocation()}
           if(this.state.timerStarted === 2) {
@@ -63,10 +81,10 @@ class App extends Component {
                   </div>
           } else {
             console.log(this.state.selectedStore)
-            return <div className="landing-page">
-                    <TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/>
-                    <StoresPage initialPosition={{lat:this.state.curLat,long:this.state.curLong}} nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer} />
-                </div>
+            return  <div>
+                      <div className="landing-page"><TimePage timerStarted={this.state.timerStarted} timeInfo={this.state.startTime} handleClick={this.toggleTimer}/></div>
+                      {this.checkForLogIn()}
+                    </div>
           }
         }} />
         <Route exact path="/map" render={() => {
@@ -88,6 +106,16 @@ class App extends Component {
         <Route exact path="/contact" render={() => {
           return  <div className="contact-page">
                     <Contact />
+                  </div>
+        }} />
+        <Route exact path="/login" render={() => {
+          return  <div className="login-page">
+                    <Login onSubmit={this.logIn} onUserCreate={this.createUser}/>
+                  </div>
+        }} />
+        <Route exact path="/user/:id" render={() => {
+          return  <div className="user-page">
+                    <UserPage onLogout={this.logOut}/>
                   </div>
         }} />
         <div className="footer">
@@ -142,14 +170,13 @@ class App extends Component {
             startTime: performance.now(),
             selectedStore: store
           })
-        } else {
-          
-          this.createWaitTime(performance.now()-this.state.startTime)
-        }
+    } else {
+      this.createWaitTime(performance.now()-this.state.startTime)
+    }
   }
 
   createWaitTime(waitTime) {
-    WaitTimesAdapter.create(waitTime, this.state.selectedStore, this.state.user.id)
+    WaitTimesAdapter.create(waitTime, this.state.selectedStore, this.state.auth.user.id)
       .then(() => {
         this.setState({
             timerStarted: 2,
@@ -157,6 +184,7 @@ class App extends Component {
             
           })
       })
+      .then(console.log)
       this.getNearbyStores(this.state.latitude, this.state.longitude) 
   }
   
@@ -177,10 +205,39 @@ class App extends Component {
     })
   }
 
-  logIn() {
-    console.log('log in attempted');
+  checkForLogIn() {
+    if(this.state.auth.loggedIn) {
+      return <div className="storesPage"><StoresPage initialPosition={{lat:this.state.curLat,long:this.state.curLong}} nearbyStores={this.state.nearbyStores} selectedStore={this.state.selectedStore} timerStarted={this.state.timerStarted} handleClick={this.toggleTimer} /></div>
+    } else {
+      return <div className="landing-page"><Login onSubmit={this.logIn} onUserCreate={this.createUser}/></div>
+    }
   }
 
+  logIn(loginParams) {
+    AuthAdapter.login(loginParams)
+    .then(user => {
+      this.setState({
+        auth: {
+          loggedIn: true,
+          user: user
+        }
+      })
+      localStorage.setItem("user_id", user.id)
+    })
+  }
+
+  logOut() {
+      this.setState({
+        auth: {
+          loggedIn: false,
+          user: null
+        }
+      })
+      localStorage.clear()
+    
+  }
+
+  
   
 
 }
