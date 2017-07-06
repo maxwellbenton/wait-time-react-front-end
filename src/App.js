@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 
 import Nav from './Nav'
 import TimePage from './TimePage'
@@ -13,7 +13,7 @@ import Contact from './Contact'
 import Login from './Login'
 import UserPage from './UserPage'
 
-import {StoresAdapter, WaitTimesAdapter, AuthAdapter} from './adapters/'
+import {StoresAdapter, WaitTimesAdapter, AuthAdapter, UserAdapter} from './adapters/'
 
 
 class App extends Component {
@@ -50,30 +50,22 @@ class App extends Component {
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
     this.checkForLogIn = this.checkForLogIn.bind(this)
+    this.createUser = this.createUser.bind(this)
   }
 
-  onComponentDidMount() {
-    if(localStorage.getItem("user_id")) {
-      AuthAdapter.currentUser()
-      .then(user => {
-        this.setState({
-          auth: {
-            loggedIn: true,
-            user: user
-          }
-        })
-      })
-    }
-    this.getNearbyStores()
+  componentDidMount() {
+    this.getCurrentUser()
   }
+
   render() {
     console.log(this.state.curLat)
     console.log(this.state.curLong)
+    console.log(this.state.user)
     return (
       <div className="App container">
         <Nav handleClick={this.resetTimeStatus} logInInfo={this.state.auth}/>
         <Route exact path="/" render={() => {
-          if(this.state.curLat === null) {this.getUserLocation()}
+          //if(this.state.curLat === null) {this.getCurrentUser()}
           if(this.state.timerStarted === 2) {
             console.log(this.state.selectedStore)
             return <div className="ending-page">
@@ -128,6 +120,29 @@ class App extends Component {
     
   }
 
+  getCurrentUser() {
+    if(localStorage.getItem("user_id")) {
+      AuthAdapter.currentUser(localStorage.getItem("user_id"))
+      .then(user => {
+        this.setState({
+          auth: {
+            loggedIn: true,
+            user: user
+          }
+        })
+      })
+    } else {
+      this.setState({
+          auth: {
+            loggedIn: false,
+            user: null
+          }
+        })
+      this.props.history.push('/login')
+    }
+    this.getUserLocation()
+  }
+
   getUserLocation() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -159,8 +174,10 @@ class App extends Component {
             })
           }
         })
-        console.log('local store data fetched')
+        
   }
+
+  
 
   toggleTimer(store) {
     console.log(!this.state.timerStarted)
@@ -233,13 +250,25 @@ class App extends Component {
           user: null
         }
       })
-      localStorage.clear()
+      localStorage.removeItem('user_id')
+      this.props.history.push('/')
     
   }
 
-  
+  createUser(state) {
+    UserAdapter.createUser(state.newUsername, state.newPassword)
+      .then(user => {
+      this.setState({
+        auth: {
+          loggedIn: true,
+          user: user
+        }
+      })
+      localStorage.setItem("user_id", user.id)
+    })
+  }
   
 
 }
 
-export default App;
+export default withRouter(App);

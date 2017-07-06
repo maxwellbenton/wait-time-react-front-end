@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {UserAdapter} from './adapters/'
 import Chart from './Chart'
+import { withRouter } from 'react-router-dom'
 
-export default class UserPage extends Component{
+class UserPage extends Component{
   constructor() {
     super()
     this.state = {
@@ -18,6 +19,13 @@ export default class UserPage extends Component{
     }
   }
 
+  componentWillMount() {
+
+    if(localStorage.getItem("user_id") === null) {
+      this.props.history.push('/login')
+    }
+  }
+
   displayChart() {
       if(this.state.user.wait_times.length > 0) {
           return(
@@ -29,7 +37,7 @@ export default class UserPage extends Component{
   }
   
   render() {
-    if(this.state.user === null) {
+    if(this.state.user) {
       UserAdapter.userData(localStorage.getItem("user_id"))
         .then(user => {
           this.setState({
@@ -37,7 +45,7 @@ export default class UserPage extends Component{
           })
         })
     }
-    console.log(this.state.user)
+    
     
     return (
       <div>
@@ -48,8 +56,11 @@ export default class UserPage extends Component{
         <div>Total Time Spent in Line: {this.totalWait()} seconds</div>
         <div>User since {this.state.user !== null ? this.state.user.created_at.split('T')[0] : null}</div>
         
+        <button onClick={this.props.onLogout}>Log Out</button>
       </div>
     )
   }
   
 }
+
+export default withRouter(UserPage)

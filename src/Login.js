@@ -8,15 +8,27 @@ constructor() {
 
     this.state = {
         username: '',
-        password: ''
+        password: '',
+        newUsername: '',
+        newPassword: '',
+        retypedPassword: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleCreate = this.handleCreate.bind(this)
 }
 
 handleSubmit(e) {
     e.preventDefault()
     this.props.onSubmit(this.state)
+    this.setState({
+        username: '',
+        password: ''
+    })
+}
+handleCreate(e) {
+    e.preventDefault()
+    this.props.onUserCreate(this.state)
     this.setState({
         username: '',
         password: ''
@@ -50,15 +62,15 @@ render() {
                 <h4>Create New Account</h4>
                 <div>
                     
-                    <input type="text" placeholder="Enter New Username" value={this.state.username} name="newUsername" onChange={this.handleChange}/>
+                    <input type="text" placeholder="Enter New Username" value={this.state.newUsername} name="newUsername" onChange={this.handleChange}/>
                 </div>
                 <div>
                     
-                    <input type="password" placeholder="Create Password" value={this.state.password} name="newPassword" onChange={this.handleChange}/>
+                    <input type="password" placeholder="Create Password" value={this.state.newPassword} name="newPassword" onChange={this.handleChange}/>
                 </div>
                 <div>
                     
-                    <input type="password" placeholder="Retype Password" value={this.state.password} name="retypedPassword" onChange={this.handleChange}/>
+                    <input type="password" placeholder="Retype Password" value={this.state.retypedPassword} name="retypedPassword" onChange={this.handleChange}/>
                 </div>
                 <div>
                     <input type="submit"/>

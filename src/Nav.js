@@ -16,6 +16,7 @@ export default class NavBar extends Component {
       }
   }
 render() {
+  console.log(this.props)
   return (
     <nav className='topnav' ref={"navBtn"}>
       <div className='container-fluid text-center'>

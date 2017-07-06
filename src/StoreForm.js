@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import {StoresAdapter} from '../src/adapters'
+import { withRouter } from 'react-router-dom'
 
-export default class StoreForm extends Component {
+
+
+class StoreForm extends Component {
 
   constructor(){
     super()
@@ -29,9 +32,11 @@ export default class StoreForm extends Component {
       address: '',
       company: ''
     }) 
+    this.props.history.push('/stores')
   }
 
   render(){
+    console.log(this.props)
     return (
       <form onSubmit={this.handleSubmit}>
         <table>
@@ -56,3 +61,5 @@ export default class StoreForm extends Component {
     )
   }
 }
+
+export default withRouter(StoreForm)

@@ -9,9 +9,9 @@ export class AuthAdapter {
     }).then(res => res.json() )
   }
 
-  static currentUser(){
+  static currentUser(id){
     return fetch(`${baseUrl}/current_user`, {
-      headers: headers()
+        headers: headers(),
     }).then(res => res.json() )
   }
 
@@ -28,7 +28,7 @@ export class UserAdapter {
   }
 
   static createUser(username, password){
-    return fetch(`${baseUrl}/createUser`, {
+    return fetch(`${baseUrl}/create_user`, {
       method: 'POST',
       headers: headers(),
       body: JSON.stringify({
