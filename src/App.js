@@ -13,7 +13,7 @@ import Contact from './Contact'
 import Login from './Login'
 import UserPage from './UserPage'
 
-import {StoresAdapter, WaitTimesAdapter, AuthAdapter, UserAdapter} from './adapters/'
+import {StoresAdapter, AuthAdapter, UserAdapter, FeedbackAdapter} from './adapters/'
 
 
 class App extends Component {
@@ -43,7 +43,7 @@ class App extends Component {
     this.toggleTimer = this.toggleTimer.bind(this)
     this.getNearbyStores = this.getNearbyStores.bind(this)
     this.getUserLocation = this.getUserLocation.bind(this)
-    this.createWaitTime = this.createWaitTime.bind(this)
+    this.setWaitTime = this.setWaitTime.bind(this)
     this.changeMap = this.changeMap.bind(this)
     this.resetTimeStatus = this.resetTimeStatus.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
@@ -51,6 +51,7 @@ class App extends Component {
     this.logOut = this.logOut.bind(this)
     this.checkForLogIn = this.checkForLogIn.bind(this)
     this.createUser = this.createUser.bind(this)
+    this.submitFeedback = this.submitFeedback.bind(this)
   }
 
   componentDidMount() {
@@ -65,11 +66,10 @@ class App extends Component {
       <div className="App container">
         <Nav handleClick={this.resetTimeStatus} logInInfo={this.state.auth}/>
         <Route exact path="/" render={() => {
-          //if(this.state.curLat === null) {this.getCurrentUser()}
           if(this.state.timerStarted === 2) {
             console.log(this.state.selectedStore)
             return <div className="ending-page">
-                    <EndTime store={this.state.selectedStore} handleClick={this.resetTimeStatus}/>
+                    <EndTime store={this.state.selectedStore} handleClick={this.submitFeedback}/>
                   </div>
           } else {
             console.log(this.state.selectedStore)
@@ -185,34 +185,37 @@ class App extends Component {
           this.setState({
             timerStarted: 1,
             startTime: performance.now(),
-            selectedStore: store
+            selectedStore: store,
+            
           })
     } else {
-      this.createWaitTime(performance.now()-this.state.startTime)
+      this.setWaitTime(performance.now()-this.state.startTime)
     }
   }
 
-  createWaitTime(waitTime) {
-    WaitTimesAdapter.create(waitTime, this.state.selectedStore, this.state.auth.user.id)
-      .then(() => {
+  setWaitTime(waitTime) {
         this.setState({
             timerStarted: 2,
-            startTime: null
-            
+            startTime: null,
+            waitTime: waitTime
           })
-      })
-      .then(console.log)
-      this.getNearbyStores(this.state.latitude, this.state.longitude) 
+      //this.getNearbyStores(this.state.latitude, this.state.longitude) 
   }
   
   changeMap(lat, lng) {
     this.getNearbyStores(lat, lng) 
   }
 
+  submitFeedback(feedback, store_id) {
+    FeedbackAdapter.create(feedback, store_id, this.state.auth.user.id, this.state.waitTime)
+      .then(console.log)
+      .then(this.resetTimeStatus())
+  }
   resetTimeStatus() {
     this.setState({
       timerStarted: 0,
-      selectedStore: null
+      selectedStore: null,
+      waitTime: null
     })
   }
   

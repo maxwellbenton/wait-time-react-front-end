@@ -9,9 +9,7 @@ export default class StoresPage extends Component{
             store: null
         }
         this.getStoreInfo = this.getStoreInfo.bind(this)
-    }
-    getFeedbackList() {
-        console.log('feedback gettin')
+        this.handleClick = this.handleClick.bind(this)
     }
 
     componentDidMount() {
@@ -23,6 +21,9 @@ export default class StoresPage extends Component{
             .then(store => this.setState({store}))
     }
 
+    handleClick(e) {
+        this.props.handleClick(e.target.innerText, this.props.store.id)
+    }
     
     render() {
         return (
@@ -33,7 +34,7 @@ export default class StoresPage extends Component{
                 <div className="storesPage text-center">
                     <div className="endData"> Thank you!  Please choose a feedback option to submit your wait time.</div>
                     <div className="endFeedback">
-                        {feedbackOptions.map((comment) => <button key={comment.id} onClick={this.props.handleClick}><div className="storeButton">{comment.content}</div></button> )}
+                        {feedbackOptions.map((comment) => <button key={comment.id} onClick={this.handleClick}><div className="storeButton">{comment.content}</div></button> )}
                     </div>
                     
                     

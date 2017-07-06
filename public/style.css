@@ -90,14 +90,13 @@ body, html {
   opacity: .8;
   color: #000;
   margin: auto;
-  height: 1.4em;
   position: relative;
-  top: -173px;
+  top: -40vw;
   font-size: 4em;
   font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif
 }
-.title {
-  font-size: 70vw;
+.logo {
+  font-size: 10vw;
   font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
   
 }

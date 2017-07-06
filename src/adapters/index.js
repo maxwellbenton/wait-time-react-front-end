@@ -128,6 +128,26 @@ export class StoresAdapter  {
     })
       .then(response => response.json() )
   }
+
+}
+export class FeedbackAdapter  {
+  
+
+  static create(feedback, store_id, user_id, wait_time){
+    return fetch(`${baseUrl}/create_feedback`, {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify({
+            comment: {
+              feedback: feedback,
+              store_id: store_id,
+              user_id: user_id,
+              wait_time: wait_time
+            }
+        })
+    })
+      .then(response => response.json() )
+  }
 }
 
 function headers() {
